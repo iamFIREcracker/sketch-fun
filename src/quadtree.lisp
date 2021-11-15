@@ -110,7 +110,8 @@
                      (height *height*)
                      (search-box (default-search-box))
                      (qtree (make-qtree (make-bbox 0 0 *width* *height*)))
-                     (elements-count 0))
+                     (elements-count 0)
+                     (drag-n-drop-p nil))
   (background *background*)
   (draw-quadtree qtree)
   (multiple-value-bind (found checks-count)
@@ -163,17 +164,15 @@
             weight))))
 
 
-(defvar *drag-n-drop-p* nil)
-
 (defmethod kit.sdl2:mousebutton-event ((window quadtree) state timestamp button x y)
   (declare (ignore timestamp button))
-  (setf *drag-n-drop-p* (eq state :mousebuttondown))
+  (setf (slot-value window 'drag-n-drop-p) (eq state :mousebuttondown))
   (unless (eq state :mousebuttonup)
     (add-random-points window x y)))
 
 (defmethod kit.sdl2:mousemotion-event ((window quadtree) timestamp button-mask x y xrel yrel)
   (declare (ignore timestamp button-mask xrel yrel))
-  (when *drag-n-drop-p*
+  (when (slot-value window 'drag-n-drop-p)
     (add-random-points window x y))
   (center-bbox window x y))
 
