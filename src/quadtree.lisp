@@ -205,7 +205,8 @@
   (with-slots (search-box qtree elements-count) *window*
     (setf search-box (default-search-box)
           qtree (make-qtree (make-bbox 0 0 *width* *height*) 4)
-          elements-count 0)))
+          elements-count 0))
+  (values))
 
 (defun stop ()
   (when *window*
