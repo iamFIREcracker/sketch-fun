@@ -3,18 +3,11 @@
 ## Setup
 Make sure .asd files in the current directory can be loaded by ASDF:
 
-    * (pushnew '*default-pathname-defaults* asdf:*central-registry*)
-    #P"/Users/matteolandi/Workspace/sketch-fun/build/setup.lisp"
+    (pushnew '*default-pathname-defaults* asdf:*central-registry*)
 
 Load the main system:
 
-    * (ql:quickload "sketch-fun")
-    To load "sketch-fun":
-      Load 1 ASDF system:
-        sketch-fun
-    ; Loading "sketch-fun"
-
-    ("sketch-fun")
+    (ql:quickload "sketch-fun")
 
 ## Experiments
 
@@ -34,18 +27,11 @@ Load the main system:
 
 Load the system:
 
-    * (ql:quickload "sketch-fun/quadtree")
-    To load "sketch-fun/quadtree":
-      Load 1 ASDF system:
-        sketch-fun/quadtree
-    ; Loading "sketch-fun/quadtree"
-    ...
-    ("sketch-fun/quadtree")
+    (ql:quickload "sketch-fun/quadtree")
 
 Start the experiment:
 
-    * (quadtree:start)
-    #<QUADTREE #x30200773D4ED>
+    (quadtree:start)
 
 Reset it (i.e. delete all the points):
 
@@ -53,6 +39,4 @@ Reset it (i.e. delete all the points):
 
 Stop it:
 
-    * (quadtree:stop)
-    #<QUADTREE #x30200773D4ED>
-
+    (quadtree:stop)
