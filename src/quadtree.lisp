@@ -2,6 +2,7 @@
   (:use #:cl #:sketch)
   (:export
    start
+   clear
    stop))
 (in-package #:quadtree)
 
