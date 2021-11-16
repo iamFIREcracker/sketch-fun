@@ -182,15 +182,15 @@
     (loop :repeat 5
           :for loc = (make-loc (+ x (- (random 30) 15))
                                (+ y (- (random 30) 15)))
-          :do (quadtree-insert qtree (make-element :loc loc))
+          :do (qtree-insert qtree (make-element :loc loc))
           (incf elements-count))))
 
 (defun center-bbox (window x y)
   (with-slots (search-box) window
     (destructuring-bind (loc w h) search-box
       (declare (ignore loc))
-      (setf search-box (make-bbox (- x (/ w 2))
-                                  (- y (/ h 2))
+      (setf search-box (make-bbox (- x (floor w 2))
+                                  (- y (floor h 2))
                                   w
                                   h)))))
 
