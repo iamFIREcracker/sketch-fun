@@ -45,7 +45,7 @@
   bbox
   capacity
   elements
-  sub-trees)
+  subtrees)
 
 (defun make-qtree (bbox &optional (capacity 4))
   (make-qtree% :bbox bbox :capacity capacity))
@@ -88,12 +88,12 @@
           (remove-if-not #'(lambda (e)
                             (bbox-contains-p bbox (element-loc e)))
                          (qtree-elements qtree))
-          (mapcan #'(lambda (sub-tree)
+          (mapcan #'(lambda (tree)
                      (multiple-value-bind (found num-checks)
-                         (qtree-query sub-tree bbox)
+                         (qtree-query tree bbox)
                        (incf total-checks num-checks)
                        found))
-                  (qtree-sub-trees qtree)))
+                  (qtree-subtrees qtree)))
         total-checks))))
 
 
@@ -128,8 +128,8 @@
   (destructuring-bind ((x y) w h) (qtree-bbox qtree)
     (with-pen *pen-grid*
       (rect x y w h))
-    (dolist (sub-tree (qtree-sub-trees qtree))
-      (draw-quadtree sub-tree)))
+    (dolist (tree (qtree-subtrees qtree))
+      (draw-quadtree tree)))
   (dolist (e (qtree-elements qtree))
     (destructuring-bind (x y) (element-loc e)
       (with-pen *pen-point*
