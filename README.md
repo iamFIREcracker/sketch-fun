@@ -10,6 +10,26 @@ Load the main system:
     (ql:quickload "sketch-fun")
 
 ## Experiments
+### Doom's Fire
+![Doom's Fire](./images/doomfire.png)
+
+- Credits: [fabiensanglard/DoomFirePSX](https://github.com/fabiensanglard/DoomFirePSX/blob/master/flames.html)
+
+Load the system:
+
+    (ql:quickload "sketch-fun/doomfire")
+
+Start the experiment:
+
+    (doomfire:start)
+
+Reset it (i.e. delete all the points):
+
+    (doomfire:clear)
+
+Stop it:
+
+    (doomfire:stop)
 
 ### Quadtree
 ![Quadtree](./images/quadtree.png)

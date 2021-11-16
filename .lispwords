@@ -2,6 +2,7 @@
 (destructuring-bind 2)
 (dolist 1)
 (let 1)
+(let* 1)
 (multiple-value-bind 2)
 (prog1 1)
 (unless 1)
