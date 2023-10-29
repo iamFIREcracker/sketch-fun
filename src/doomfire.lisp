@@ -18,9 +18,9 @@
         "#BFA727" "#BFAF2F" "#B7AF2F" "#B7B72F" "#B7B737" "#CFCF6F" "#DFDF9F" 
         "#EFEFC7" "#FFFFFF"))
 (defparameter *palette*
-  (coerce (loop :for hex :in *colors*
-                :collect (make-pen :fill (hex-to-color hex)))
-          'array))
+  (make-array (length *colors*)
+              :initial-contents (loop :for hex :in *colors*
+                                      :collect (make-pen :fill (hex-to-color hex)))))
 
 (defsketch doomfire ((title "Doom's Fire")
                  (width *width*)
