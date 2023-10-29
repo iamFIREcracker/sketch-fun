@@ -13,9 +13,9 @@
 (defparameter *colors*
   (list "#070707" "#1F0707" "#2F0F07" "#470F07" "#571707" "#671F07" "#771F07"
         "#8F2707" "#9F2F07" "#AF3F07" "#BF4707" "#C74707" "#DF4F07" "#DF5707"
-        "#DF5707" "#D75F07" "#D75F07" "#D7670F" "#CF6F0F" "#CF770F" "#CF7F0F" 
-        "#CF8717" "#C78717" "#C78F17" "#C7971F" "#BF9F1F" "#BF9F1F" "#BFA727" 
-        "#BFA727" "#BFAF2F" "#B7AF2F" "#B7B72F" "#B7B737" "#CFCF6F" "#DFDF9F" 
+        "#DF5707" "#D75F07" "#D75F07" "#D7670F" "#CF6F0F" "#CF770F" "#CF7F0F"
+        "#CF8717" "#C78717" "#C78F17" "#C7971F" "#BF9F1F" "#BF9F1F" "#BFA727"
+        "#BFA727" "#BFAF2F" "#B7AF2F" "#B7B72F" "#B7B737" "#CFCF6F" "#DFDF9F"
         "#EFEFC7" "#FFFFFF"))
 (defparameter *palette*
   (make-array (length *colors*)
@@ -23,9 +23,9 @@
                                       :collect (make-pen :fill (hex-to-color hex)))))
 
 (defsketch doomfire ((title "Doom's Fire")
-                 (width *width*)
-                 (height *height*)
-                 (framebuffer (default-frameuffer *width* *height* *scale*)))
+                     (width *width*)
+                     (height *height*)
+                     (framebuffer (default-frameuffer *width* *height* *scale*)))
   (draw-fire sketch::instance)
   (tick-fire sketch::instance))
 
