@@ -2,7 +2,7 @@
 ;;;; See http://quickutil.org for details.
 
 ;;;; To regenerate:
-;;;; (qtlc:save-utils-as "mlutils.lisp" :utilities '(:BND* :BND1 :FN :IF-NOT :MKLIST :ONCE-ONLY :RECURSIVELY :SPLIT-SEQUENCE :SYMB :UNTIL) :categories '(:ANAPHORIC :PRINTING) :ensure-package T :package "MLUTILS")
+;;;; (qtlc:save-utils-as "mlutils.lisp" :utilities '(:BND* :BND1 :DOLIST+ :DOLISTS :FN :IF-NOT :IOTA :MKLIST :ONCE-ONLY :RANGE ...) :categories '(:ANAPHORIC :PRINTING) :ensure-package T :package "MLUTILS")
 
 (eval-when (:compile-toplevel :load-toplevel :execute)
   (unless (find-package "MLUTILS")
@@ -13,11 +13,12 @@
 (in-package "MLUTILS")
 
 (when (boundp '*utilities*)
-  (setf *utilities* (union *utilities* '(:BND* :BND1 :FN :IF-NOT :MKLIST
-                                         :MAKE-GENSYM-LIST :ONCE-ONLY :LET1
-                                         :RECURSIVELY :SPLIT-SEQUENCE :MKSTR
-                                         :SYMB :UNTIL :AIF :AAND :AWHEN :SPRS
-                                         :SPRN :SPR :PRS :PRN :PR))))
+  (setf *utilities* (union *utilities* '(:BND* :BND1 :DOLIST+ :DOLISTS :FN
+                                         :IF-NOT :IOTA :MKLIST
+                                         :MAKE-GENSYM-LIST :ONCE-ONLY :RANGE
+                                         :LET1 :RECURSIVELY :SPLIT-SEQUENCE
+                                         :MKSTR :SYMB :UNTIL :AIF :AAND :AWHEN
+                                         :SPRS :SPRN :SPR :PRS :PRN :PR))))
 
   (defmacro bnd* (bindings &body body)
     "Like LET*, but more powerful.
@@ -93,6 +94,38 @@ BND* will expand to a DESTRUCTURING-BIND call:
        ,@body))
   
 
+  (defmacro dolist+ ((var list &optional (result nil)) &body body)
+    "Like DOLIST, except it supports destructuring of `var`.
+
+  > (let ((list '((1 a) (2 b))))
+      (dolist+ ((a b) list :ret)
+        (print (list a b))))
+  ;;(1 A)
+  ;;(2 B)
+  :RET
+  "
+    `(loop :for ,var :in ,list do ,@body :finally (return ,result)))
+  
+
+  (defmacro dolists (((var1 list1) (var2 list2) &rest var-list-specs) &body body)
+    "Like DOLIST, except it allows you to iterate over multiple lists in parallel.
+
+  > (let ((list '(1 2 3 4)))
+      (dolists ((x1 list)
+                (x2 (cdr list)))
+        (print (list x1 x2))))
+  ;; (1 2)
+  ;; (2 3)
+  ;; (3 4)
+  NIL
+  "
+    `(loop
+       :for ,var1 :in ,list1 :for ,var2 :in ,list2
+       ,@(loop for (var list) in var-list-specs
+               collect 'FOR collect var collect 'IN collect list)
+       do ,@body))
+  
+
   (defmacro fn (name lambda-list &body body)
     "Like LAMBDA, but 4 characters shorter."
     `(lambda ,name ,lambda-list ,@body))
@@ -101,6 +134,24 @@ BND* will expand to a DESTRUCTURING-BIND call:
   (defmacro if-not (test then &optional else)
     "Like IF, except TEST gets wrapped inside NOT."
     `(if (not ,test) ,then ,else))
+  
+
+  (declaim (inline iota))
+  (defun iota (n &key (start 0) (step 1))
+    "Return a list of `n` numbers, starting from `start` (with numeric contagion
+from `step` applied), each consequtive number being the sum of the previous one
+and `step`. `start` defaults to `0` and `step` to `1`.
+
+Examples:
+
+    (iota 4)                      => (0 1 2 3)
+    (iota 3 :start 1 :step 1.0)   => (1.0 2.0 3.0)
+    (iota 3 :start -1 :step -1/2) => (-1 -3/2 -2)"
+    (declare (type (integer 0) n) (number start step))
+    (loop repeat n
+          ;; KLUDGE: get numeric contagion right for the first element too
+          for i = (+ (- (+ start step) step)) then (+ i step)
+          collect i))
   
 
   (defun mklist (obj)
@@ -156,6 +207,14 @@ Example:
             ,(let ,(mapcar (lambda (n g) (list (car n) g))
                     names-and-forms gensyms)
                ,@forms)))))
+  
+
+  (defun range (start end &key (step 1) (key 'identity))
+    "Return the list of numbers `n` such that `start <= n < end` and
+`n = start + k*step` for suitable integers `k`. If a function `key` is
+provided, then apply it to each number."
+    (assert (<= start end))
+    (loop :for i :from start :below end :by step :collecting (funcall key i)))
   
 
   (defmacro let1 (var val &body body)
@@ -389,8 +448,8 @@ See also: `symbolicate`"
     (first args))
   
 (eval-when (:compile-toplevel :load-toplevel :execute)
-  (export '(bnd* bnd1 fn if-not mklist once-only recursively split-sequence
-            split-sequence-if split-sequence-if-not symb until aand awhen aif
-            sprs sprn spr prs prn pr)))
+  (export '(bnd* bnd1 dolist+ dolists fn if-not iota mklist once-only range
+            recursively split-sequence split-sequence-if split-sequence-if-not
+            symb until aand awhen aif sprs sprn spr prs prn pr)))
 
 ;;;; END OF mlutils.lisp ;;;;

@@ -1,13 +1,13 @@
 .PHONY: all
-all: ml 3am libSDL2.dylib
+all: ml 3am
 
 .PHONY: ml
 ml:
 	mkdir -p vendor/ml
-	cp ~/.lisp/ml/mlsyntax.lisp         vendor/ml/
-	cp ~/.lisp/ml/mlutils-package.lisp  vendor/ml/
-	cp ~/.lisp/ml/mlutils.lisp          vendor/ml/
-	cp ~/.lisp/ml/ml.asd                vendor/ml/
+	cp ~/Workspace/mlutils/mlsyntax.lisp              vendor/ml/
+	cp ~/Workspace/mlutils/mlutils-package.lisp       vendor/ml/
+	cp ~/Workspace/mlutils/mlutils.lisp               vendor/ml/
+	cp ~/Workspace/mlutils/net.matteolandi.utils.asd  vendor/ml/
 
 .PHONY: 3am
 3am:

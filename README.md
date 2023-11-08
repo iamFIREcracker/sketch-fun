@@ -60,3 +60,22 @@ Reset it (i.e. delete all the points):
 Stop it:
 
     (quadtree:stop)
+
+### Tangent Lines
+![Tangent lines](./images/tanlines.png)
+
+- Credits: [Reddit: Tangent lines to sine function seem to create an
+  interesting
+  pattern](https://www.reddit.com/r/math/comments/3kj8jg/tangent_lines_to_sine_function_seem_to_create_an/)
+
+Load the system:
+
+    (ql:quickload "sketch-fun/tanlines")
+
+Start the experiment:
+
+    (tanlines:start)
+
+Stop it:
+
+    (tanlines:stop)
