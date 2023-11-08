@@ -61,6 +61,23 @@ Stop it:
 
     (quadtree:stop)
 
+### 10 PRINT
+![10 PRINT](./images/10print.png)
+
+- Origin: [10print.org](https://10print.org/)
+
+Load the system:
+
+    (ql:quickload "sketch-fun/10print")
+
+Start the experiment:
+
+    (10print:start)
+
+Stop it:
+
+    (10print:stop)
+
 ### Tangent Lines
 ![Tangent lines](./images/tanlines.png)
 
